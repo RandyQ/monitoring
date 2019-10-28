@@ -8,6 +8,9 @@
     "start": "node server.js"
   },
   "author": "Randy Quimby and Brittany Lane",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
   "license": "ISC",
   "repository": "https://github.com/RandyQ/monitoring.git"
 }
