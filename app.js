@@ -3,12 +3,14 @@ const app = express();
 const fs = require('fs');
 const readline = require('readline');
 
+// Home page.  Used to print the logfile.txt for testing purposes.
 app.get('/', function(req, res) {
     fs.readFile("./logs/logfile.txt", function (err, buf) {
         err ? res.send("Failed to read file when calling the /logs route\n") : res.send(buf.toString());
     });
 });
 
+// Returns the total sales
 app.get('/gettotal', async function(req, res) {    
     let words = await extractAllSubStrings();
     let totalPrice = 0;
@@ -21,6 +23,7 @@ app.get('/gettotal', async function(req, res) {
     res.send(`Total amount of earnings seen thus far: $${totalPrice.toFixed(2)}\n`);
 });
 
+// Returns the item that is the top seller
 app.get('/gettopseller', async function(req, res) {
     let maxCount = 0;
     let entries = Object.entries(await totalEachItemQuantities());
@@ -35,6 +38,7 @@ app.get('/gettopseller', async function(req, res) {
     res.send(`Top seller: ${topSeller}\n`);
 });
 
+// Counts the total number of requests
 app.get('/getrequestcount', async function(req, res){
     let words = await extractAllSubStrings();
     let requestCount = 0;
@@ -47,6 +51,7 @@ app.get('/getrequestcount', async function(req, res){
     res.send(`Total number of requests: ${requestCount}\n`);
 });
 
+// Retrieves the last request status (FAILED or SUCCESSFUL)
 app.get('/getlastrequeststatus', async function(req, res) {
     let words = await extractAllSubStrings();
     if (words.lastIndexOf('SUCCESSFULLY') < words.lastIndexOf('FAILED')) {
@@ -56,6 +61,7 @@ app.get('/getlastrequeststatus', async function(req, res) {
     }
 });
 
+// Retrieves the last request time
 app.get('/getlastrequesttime', async function(req, res) {
     let words = await extractAllSubStrings();
     let lastRequestTime;
@@ -68,6 +74,7 @@ app.get('/getlastrequesttime', async function(req, res) {
     res.send(`The last request time was: ${lastRequestTime}\n`);
 });
 
+// Places each string in the logfile.txt as an element in an array
 function extractAllSubStrings() {
     return new Promise((resolve) => {
         fs.readFile("./logs/logfile.txt", function (err, buf) {
@@ -77,6 +84,7 @@ function extractAllSubStrings() {
     });
 }
 
+// Counts the number of each item sold
 async function totalEachItemQuantities() {
     let words = await extractAllSubStrings();
     let itemCount = { hotdogs: 0, hamburgers: 0, sodas: 0, cookies: 0 };
