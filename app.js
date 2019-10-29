@@ -5,7 +5,7 @@ const readline = require('readline');
 
 app.get('/', function(req, res) {
     fs.readFile("./logs/logfile.txt", function (err, buf) {
-        err ? res.send("Failed to read file when calling the /logs route") : res.send(buf.toString());
+        err ? res.send("Failed to read file when calling the /logs route\n") : res.send(buf.toString());
     });
 });
 
@@ -18,7 +18,7 @@ app.get('/gettotal', async function(req, res) {
         }
     }
 
-    res.send(`Total amount of earnings seen thus far: $${totalPrice.toFixed(2)}`);
+    res.send(`Total amount of earnings seen thus far: $${totalPrice.toFixed(2)}\n`);
 });
 
 app.get('/gettopseller', async function(req, res) {
@@ -32,7 +32,7 @@ app.get('/gettopseller', async function(req, res) {
         }
     }
     
-    res.send(`Top seller: ${topSeller}`);
+    res.send(`Top seller: ${topSeller}\n`);
 });
 
 app.get('/getrequestcount', async function(req, res){
@@ -44,15 +44,15 @@ app.get('/getrequestcount', async function(req, res){
         }
     }
 
-    res.send(`Total number of requests: ${requestCount}`);
+    res.send(`Total number of requests: ${requestCount}\n`);
 });
 
 app.get('/getlastrequeststatus', async function(req, res) {
     let words = await extractAllSubStrings();
     if (words.lastIndexOf('SUCCESSFULLY') < words.lastIndexOf('FAILED')) {
-        res.send("The last result was NOT successful: FAILED");
+        res.send("The last result was NOT successful: FAILED\n");
     } else {
-        res.send("The last result successfully sent: SUCCESS");
+        res.send("The last result successfully sent: SUCCESS\n");
     }
 });
 
@@ -65,13 +65,13 @@ app.get('/getlastrequesttime', async function(req, res) {
         }
     } 
 
-    res.send(`The last request time was: ${lastRequestTime}`);
+    res.send(`The last request time was: ${lastRequestTime}\n`);
 });
 
 function extractAllSubStrings() {
     return new Promise((resolve) => {
         fs.readFile("./logs/logfile.txt", function (err, buf) {
-            err ? res.send("Failed to read file!  This may be due to a non-existent logfile..") 
+            err ? res.send("Failed to read file!  This may be due to a non-existent logfile..\n") 
             : resolve(buf.toString().split(/\n|\r|\s/));
         });
     });
